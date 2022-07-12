@@ -27,5 +27,4 @@ Example
 	To print character '1', string "three" and length 39;
 	_printf("%c %s %d %i", '1', "three", 39, 39);
 Authors
-	Trevor Oguna & Erick Kiminza.
-[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Maureen Ndinda and Christopher Mulwa
+	Maureen Ndinda and Christopher Mulwa
