@@ -1,1 +1,3 @@
-printf functions
+Printf Functions
+Authors : Ndinda Kikoma
+	: Christopher Mulwa
