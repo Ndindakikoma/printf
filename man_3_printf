@@ -114,6 +114,7 @@ int main(void)
 
 	_printf(''%s'', ''Hello, Alx!'')
 
+<<<<<<< HEAD
 	_printf(''Hello Alx! contains %d characters'', length);
 
 	length = _printf(''Hello Alx!'');
@@ -125,3 +126,10 @@ int main(void)
 .R printf(3)
 .SH AUTHORS
 Written by \Maureen Ndinda\christopher Mulwa
+=======
+Example
+	To print character '1', string "three" and length 39;
+	_printf("%c %s %d %i", '1', "three", 39, 39);
+Authors
+	Maureen Ndinda and Christopher Mulwa
+>>>>>>> 164a2d246c57f1406ab03cdff0e74bbc14553542
