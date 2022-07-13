@@ -1,80 +1,51 @@
-#include <stdarg.h>
 #include "main.h"
-#include <stdio.h>
 
 /**
-  * _printf - produces output according to a format.
-  * @format: a character string.
-  * Return: number of characters printed(
-  * excluding the null terminator)
-  */
-
+ * _printf - formatted output conversion and print data.
+ * @format: input string.
+ *
+ * Return: number of chars printed.
+ */
 int _printf(const char *format, ...)
 {
-	int count;
-	int total = 0;
-	va_list args;
-	int flag = 0;
+	unsigned int i = 0, len = 0, ibuf = 0;
+	va_list arguments;
+	int (*function)(va_list, char *, unsigned int);
+	char *buffer;
 
-	if (format == NULL)
+	va_start(arguments, format), buffer = malloc(sizeof(char) * 1024);
+	if (!format || !buffer || (format[i] == '%' && !format[i + 1]))
+		return (-1);
+	if (!format[i])
 		return (0);
-
-	va_start(args, format);
-	for (count = 0; *(format + count) != '\0'; count++)
+	for (i = 0; format && format[i]; i++)
 	{
-		if (format[count] == '%')
+		if (format[i] == '%')
 		{
-			flag = 1;
-		}
-		else if (flag == 1)
-		{
-			flag = 0;
-			switch (format[count])
-			{
-				case 'c':
-					_putchar(va_arg(args, int));
-					total += 1;
-					break;
-				case 's':
-					total += _print_str(va_arg(args, char *));
-					break;
-				case '%':
-					_putchar('%');
-					total += 1;
-					break;
-				case 'd':
-					total += _print_int((long)(va_arg(args, int)));
-					break;
-				case 'i':
-					total += _print_int((long)(va_arg(args, int)));
-					break;
-				case 'b':
-					total += to_Binary(va_arg(args, int));
-					break;
-				case 'u':
-					total += _print_int(va_arg(args, unsigned int));
-					break;
-				case 'o':
-					total += to_Octal(va_arg(args, int));
-					break;
-				case 'x':
-					total += to_Hexa(va_arg(args, int));
-					break;
-				case 'X':
-					total += to_Hexa(va_arg(args, int));
-					break;
-				default:
-					_putchar('%');
-					_putchar(format[count]);
-					total += 2;
+			if (format[i + 1] == '\0')
+			{	print_buf(buffer, ibuf), free(buffer), va_end(arguments);
+				return (-1);
 			}
+			else
+			{	function = get_print_func(format, i + 1);
+				if (function == NULL)
+				{
+					if (format[i + 1] == ' ' && !format[i + 2])
+						return (-1);
+					handl_buf(buffer, format[i], ibuf), len++, i--;
+				}
+				else
+				{
+					len += function(arguments, buffer, ibuf);
+					i += ev_print_func(format, i + 1);
+				}
+			} i++;
 		}
 		else
-		{
-			_putchar(format[count]);
-			total += 1;
-		}
+			handl_buf(buffer, format[i], ibuf), len++;
+		for (ibuf = len; ibuf > 1024; ibuf -= 1024)
+			;
 	}
-	va_end(args);
-	return (total);
+	print_buf(buffer, ibuf), free(buffer), va_end(arguments);
+	return (len);
 }
